@@ -1,0 +1,80 @@
+#General_Settings# = #
+
+	;Devil May Cry 4 - Mouse Support (v 1.1) _ Normal
+
+Mouse_Move_Remap := "On"		;Turn it "Off" if Mouse Movement Remapping is not required (Less CPU Usage)
+
+Mouse_Move_Remap_Speed := 100		;milliseconds (The lesser the number, higher CPU usage!)
+
+SendMode, Event  				;"Input" is the fastest mode but may not work in many games\apps! (Options: Event, Input, InputThenPlay, Play)
+
+S_offset_L := 10, S_offset_R := 10, S_offset_U := 10, S_offset_D := 10		;Screen Offset for screen edges detection (Turns "Auto_Center_Mouse" On)
+M_offset_L := 50, M_offset_R := 50, M_offset_U := 150, M_offset_D := 150		;Mouse offset for mouse move up\down\left\right detection
+R_offset_L := 25, R_offset_R := 25, R_offset_U := 25, R_offset_D := 25		;Release offset for {Key Up} in case {Key Down} is used! (Mouse Move Joystick)
+
+Auto_Center_Mouse_On_Screen_Edges := "On"
+
+# ;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Condition_If# = #WinActive("DEVIL MAY CRY 4")#
+
+	;(Note) Title match mode is "Case Sensitive" by default!
+	;(Note) "Mouse_Movements_Remap" and "Hot_Keys" will only work if "Condition_If" is matched!
+
+#Auto_Execute_On_Load# = #On#
+
+#On_Auto_Center_Mouse_Off# = #send {Blind}{Down Up}{Up Up}#		;Use this to release keys with {key up} in case any {key down} was used! (Mouse Move Joystick)
+
+  ;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Mouse_Movements_Remap# = #
+
+SetKeyDelay, , 100				;Press duration of keys in milliseconds (0 or below 100 may not work in many games\apps)
+
+	;In order to prevent stuck down problems with modifiers keys such as "Ctrl", "ALt", "Shift", etc, "Send" command should always be used with "{Blind}" option!
+	;{Blind} mode disables useful automatic tasks that sometimes are the sources of problems in some situations!
+
+if Mouse_Moved_Left
+send {Blind}{Left}
+
+if Mouse_Moved_Right
+send {Blind}{Right}
+
+if Mouse_Moved_Up		;Inverted here because in game camera up\down is inverted by default 
+send {Blind}{Down Down}
+
+if Mouse_Moved_Down		;Inverted here because in game camera up\down is inverted by default 
+send {Blind}{Up Down}
+
+;--
+
+if Mouse_Move_U_Release_On
+send {Blind}{Down Up}
+
+if Mouse_Move_D_Release_On
+send {Blind}{Up Up}
+
+# ;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Hot_Keys# = #
+
+	;"~" keeps the key original function
+	;"*" wildcard symbol, hotkeys are triggered even if modifiers keys such as "Ctrl", "alt", etc are being held down!
+
+~*LButton::i		;Mouse Left Button
+~*RButton::L		;Mouse Right Button
+~*MButton::N		;Mouse Middle Button
+~*XButton1::Q		;Mouse 4th button
+~*XButton2::J		;Mouse 5th button
+
+*e::L			;"e" in game is "L" (must be "e", not "E")		;Note that, only "K" and "L" keys can open-doors and interact ...! (at least in 2008 version!)
+*Space::K		;"Space" in game is "K"				;So, in game control settings you should keep "Devil Bringger = L" and "Jump = K" 	
+
+~*WheelUp::Send {Blind}{O Down}{O Up}		;Mouse Wheel Up (Must use "Send" here)
+~*WheelDown::Send {Blind}{P Down}{P Up}		;Mouse Wheel Down (Must use "Send" here)
+
+~*Esc::Auto_Center_Mouse := "Off"		;Keyboard "Esc" key turns "Auto_Center_Mouse" Off
+
+~*1::Auto_Center_Mouse := Auto_Center_Mouse != "On" ? "On" : "Off"		;Keyboard "1" key toggles "Auto_Center_Mouse" On\Off
+
+# ;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
