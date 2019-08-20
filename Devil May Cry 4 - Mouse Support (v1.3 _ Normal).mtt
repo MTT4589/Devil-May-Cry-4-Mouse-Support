@@ -1,0 +1,98 @@
+#General_Settings# = #
+
+	;Devil May Cry 4 - Mouse Support (v 1.3) _ Normal (Lower-Case instead Upper-Case letters in use with "Hotkeys" and "Send" command!)
+
+Mouse_Move_Remap := "On"		;Turn it "Off" if Mouse Movement Remapping is not required (Less CPU Usage)
+
+Mouse_Move_Remap_Speed := 100		;milliseconds (The lesser the number, higher CPU usage!)
+
+SendMode, Event  				;"Input" is the fastest mode but may not work in many games\apps! (Options: Event, Input, InputThenPlay, Play)
+
+S_offset_L := 10, S_offset_R := 10, S_offset_U := 10, S_offset_D := 10		;Screen Offset for screen edges detection (Turns "Auto_Center_Mouse" On)
+M_offset_L := 50, M_offset_R := 50, M_offset_U := 150, M_offset_D := 150		;Mouse offset for mouse move up\down\left\right detection
+R_offset_L := 25, R_offset_R := 25, R_offset_U := 25, R_offset_D := 25		;Release offset for {Key Up} in case {Key Down} is used! (Mouse Move Joystick)
+
+Auto_Center_Mouse_On_Screen_Edges := "On"
+
+# ;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Condition_If# = #WinActive("DEVIL MAY CRY 4")#
+
+	;(Note) Title match mode is "Case Sensitive" by default!
+	;(Note) "Mouse_Movements_Remap" and "Hot_Keys" will only work if "Condition_If" is matched!
+
+#Auto_Execute_On_Load# = #On#
+
+#On_Auto_Center_Mouse_Off# = #send {Blind}{Down Up}{Up Up}#		;Use this to release keys with {key up} in case any {key down} was used! (Mouse Move Joystick)
+
+  ;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Mouse_Movements_Remap# = #
+
+SetKeyDelay, , 100				;Press duration of keys in milliseconds (0 or below 100 may not work in many games\apps)
+
+	;In order to prevent stuck down problems with modifiers keys such as "Ctrl", "ALt", "Shift", etc, "Send" command should always be used with "{Blind}" option!
+	;{Blind} mode disables useful automatic tasks that sometimes are the sources of problems in some situations!
+
+if Mouse_Moved_Left
+send {Blind}{Left}
+
+if Mouse_Moved_Right
+send {Blind}{Right}
+
+if Mouse_Moved_Up		;Inverted here because in game camera up\down is inverted by default 
+send {Blind}{Down Down}
+
+if Mouse_Moved_Down		;Inverted here because in game camera up\down is inverted by default 
+send {Blind}{Up Down}
+
+;--
+
+if Mouse_Move_U_Release_On
+send {Blind}{Down Up}
+
+if Mouse_Move_D_Release_On
+send {Blind}{Up Up}
+
+# ;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Hot_Keys# = #
+
+	;"~" keeps the key original function
+	;"*" wildcard symbol, hotkeys are triggered even if modifiers keys such as "Ctrl", "alt", etc are being held down!
+
+~*LButton::i		;Mouse Left Button			;Use Lower-Case "i" instead Upper-Case "I"! (Prevents "Send" command to trigger "Shift" key unnecessarily!)
+~*RButton::l		;Mouse Right Button		;Use Lower-Case "l" instead Upper-Case "L"! (Prevents "Send" command to trigger "Shift" key unnecessarily!)
+~*MButton::n		;Mouse Middle Button		;Use Lower-Case "n" instead Upper-Case "N"! (Prevents "Send" command to trigger "Shift" key unnecessarily!)
+~*XButton1::q		;Mouse 4th button			;Use Lower-Case "q" instead Upper-Case "Q"! (Prevents "Send" command to trigger "Shift" key unnecessarily!)
+~*XButton2::j		;Mouse 5th button			;Use Lower-Case "j" instead Upper-Case "J"! (Prevents "Send" command to trigger "Shift" key unnecessarily!)
+
+			;"*E::l" is for "Shift + E" (Not Recommended!)
+*e::l			;"e" in game is "L" (must be "e", not "E")		;Note that, only "K" and "L" keys can open-doors and interact ...! (at least in 2008 version!)
+*Space::k			;"Space" in game is "K"				;So, in game control settings you should keep "Devil Bringger = L" and "Jump = K" 	
+
+~*WheelUp::			;Mouse Wheel Up (Must use "Send" here)
+Send {Blind}{o Down}		;Use Lower-Case "o" instead Upper-Case "O"! (Prevents "Send" command to trigger "Shift" key unnecessarily!)
+sleep, 50
+Send {Blind}{o Up}			;Use Lower-Case "o" instead Upper-Case "O"! (Prevents "Send" command to trigger "Shift" key unnecessarily!)
+return
+
+~*WheelDown::			;Mouse Wheel Down (Must use "Send" here)
+Send {Blind}{p Down}		;Use Lower-Case "p" instead Upper-Case "P"! (Prevents "Send" command to trigger "Shift" key unnecessarily!)
+sleep, 50
+Send {Blind}{p Up}			;Use Lower-Case "p" instead Upper-Case "P"! (Prevents "Send" command to trigger "Shift" key unnecessarily!)
+return
+
+~*Esc::Auto_Center_Mouse := "Off"		;Keyboard "Esc" key turns "Auto_Center_Mouse" Off
+
+~*1::Auto_Center_Mouse := Auto_Center_Mouse != "On" ? "On" : "Off"		;Keyboard "1" key toggles "Auto_Center_Mouse" On\Off
+
+# ;------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+;<User_Script> ------ Write any code below this line (Optional) ------
+
+Gui, Add, Link, x160, % "<a href=""https://multitasktool.blogspot.com/2019/08/devil-may-cry-4-mouse-support.html"">My Last Configuration</a>"
+
+gui, show, AutoSize
+
+
